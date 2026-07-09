@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template 5</title>
+</head>
+<body>
+    <h1>Bloglist </h1>
+    {% comment "If Else" %}{% endcomment %}
+    <p>{{created_at}}</p>
+    {% if blogs.4.title %}
+    <h2>Title is present</h2>
+    {% else %}
+    <h3>Title is not present</h3>
+    {% endif %}
+
+
+    {% for blog in blogs %}
+    <li>{{forloop.counter}}.{{blog.title}} - {{blog.author}}</li>
+    {% empty %}
+    Not available
+    {% endfor %}
+
+    {% comment  %} With is helps to give the length {% endcomment %}
+    {% with total_blogs=blogs|length %}
+    <p>Total_Blogs = {{total_blogs}}</p>
+    {% endwith %}
+
+    {% comment "firstOf" %}{% endcomment %}
+    <p>Author:{% firstof blogs.4.author "ABC"  %}</p>
+
+    {% comment  %} AutoEscape{% endcomment %}
+    <h2>AutoEscape</h2>
+    <p> default (Safe Escape):{{htmlCode}} </p>
+    {% autoescape on %}
+        {{htmlCode}}
+    {% endautoescape %}
+</body>
+</html>
