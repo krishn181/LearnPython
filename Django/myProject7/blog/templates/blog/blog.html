@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %} this is Blog page{% endblock title %}
+{% block content %}
+<h2>Welcome to the blog page</h2>
+{% regroup student by age as group_student %}
+<ul>
+    {% for group in group_student  %}
+    <li> Age {{group.grouper}}</li>    
+    {% endfor %}
+
+    {% spaceless %} {% comment  %} it remove spacess {% endcomment %}
+        <span>                    hello world </span>
+    {% endspaceless %}
+</ul>
+{% endblock content %}
