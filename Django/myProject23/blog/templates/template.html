@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            background:#f4f7fc;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            min-height:100vh;
+        }
+
+        .container{
+            background:#ffffff;
+            width:450px;
+            padding:40px 30px;
+            border-radius:15px;
+            text-align:center;
+            box-shadow:0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        h2{
+            color:#2c3e50;
+            margin-bottom:20px;
+            font-size:30px;
+        }
+
+        h2 span{
+            color:#2563eb;
+        }
+
+        p{
+            color:#555;
+            font-size:18px;
+            line-height:1.6;
+            margin-bottom:30px;
+        }
+
+        .course{
+            color:#16a34a;
+            font-weight:bold;
+        }
+
+        .btn{
+            display:inline-block;
+            text-decoration:none;
+            background:#2563eb;
+            color:#fff;
+            padding:12px 28px;
+            border-radius:8px;
+            font-size:16px;
+            transition:.3s;
+        }
+
+        .btn:hover{
+            background:#1d4ed8;
+        }
+
+        .footer{
+            margin-top:25px;
+            color:#888;
+            font-size:13px;
+        }
+
+        @media(max-width:500px){
+            .container{
+                width:90%;
+                padding:30px 20px;
+            }
+
+            h2{
+                font-size:24px;
+            }
+
+            p{
+                font-size:16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Welcome, <span>{{ username }}</span> 🎉</h2>
+
+        <p>
+            Thank you for signing up and enrolling in
+            <span class="course">{{ course }}</span>.
+            <br><br>
+            We're excited to have you with us and wish you a successful learning journey!
+        </p>
+
+        <a href="#" class="btn">Start Learning</a>
+
+        <div class="footer">
+            © 2026 Learning Platform. All Rights Reserved.
+        </div>
+    </div>
+
+</body>
+</html>
