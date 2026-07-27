@@ -14,3 +14,7 @@ def clear_cache(request):
     cache.clear()
     return HttpResponse('Cache clear successfully')
 
+def user_template_view(request):
+    users = UserList.objects.all()
+    return render(request, 'user.html',{'users':users})
+
