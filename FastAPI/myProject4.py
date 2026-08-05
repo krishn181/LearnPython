@@ -6,6 +6,7 @@ class UserNotFoundException(Exception):
     def __init__(self,name):
         self.name = name
 
+#global exception handler 
 @app.exception_handler(UserNotFoundException)
 def user_not_found_exception(request: Request, exc: UserNotFoundException):
     return JSONResponse(
