@@ -1,8 +1,0 @@
-{% extends "base.html" %}
-{% block content %}
-<h3>{{post.title}}-</h3><p>{{post.content}} </p>
-<a href="{% url "post_list" %}" class="btn btn-secondary">Back to all post</a>
-<a href="{% url "post_edit" post.pk %}" class="btn btn-primary">Edit Post</a>
-<a href="{% url "post_delete" post.pk %}"class="btn btn-danger">Delete Post</a>
-
-{% endblock %}
