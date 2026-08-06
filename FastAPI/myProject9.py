@@ -3,13 +3,16 @@ from jose import jwt,JWTError
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from datetime import timezone, timedelta,datetime
 from passlib.context import CryptContext
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 app = FastAPI()
 
 #JWT Config
-SECRET_KEY = "mysecretkey"
+SECRET_KEY = os.getenv("SECRET_KEY")
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
-ALGORITHM = 'HS256'
+ALGORITHM = os.getenv("ALGORITHM")
 
 #password hashing method
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated = "auto")
