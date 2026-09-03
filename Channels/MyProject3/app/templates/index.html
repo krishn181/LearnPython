@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django Channels Chat</title>
+
+    <style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#eef2f7;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.chat-container{
+    width:420px;
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 12px 30px rgba(0,0,0,.15);
+}
+
+.chat-header{
+    background:linear-gradient(135deg,#2563eb,#1d4ed8);
+    color:#fff;
+    padding:18px;
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
+}
+
+#chat-log{
+    width:100%;
+    height:360px;
+    border:none;
+    outline:none;
+    resize:none;
+    padding:15px;
+    background:#f8fafc;
+    font-size:15px;
+    color:#333;
+    line-height:1.5;
+}
+
+#chat-log::-webkit-scrollbar{
+    width:6px;
+}
+
+#chat-log::-webkit-scrollbar-thumb{
+    background:#cbd5e1;
+    border-radius:10px;
+}
+
+.input-area{
+    display:flex;
+    gap:10px;
+    padding:15px;
+    border-top:1px solid #e5e7eb;
+    background:#fff;
+}
+
+#chat-message-log{
+    flex:1;
+    padding:12px;
+    border:1px solid #d1d5db;
+    border-radius:10px;
+    outline:none;
+    font-size:15px;
+    transition:.3s;
+}
+
+#chat-message-log:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 0 3px rgba(37,99,235,.15);
+}
+
+#message-submit{
+    padding:12px 20px;
+    border:none;
+    border-radius:10px;
+    background:#2563eb;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+#message-submit:hover{
+    background:#1e40af;
+}
+
+#message-submit:active{
+    transform:scale(.97);
+}
+</style>
+</head>
+<body>
+
+<div class="chat-container">
+
+    <div class="chat-header">
+        Django Channels Chat
+    </div>
+<textarea  id="chat-log"></textarea><br>
+    <div class="input-area">
+        <input type="text"
+               id="chat-message-log"
+               placeholder="Type your message...">
+
+        <button id="message-submit">Send</button>
+    </div>
+
+</div>
+
+
+    <script>
+        var ws = new WebSocket("ws://127.0.0.1:8000/ws/sc/")
+
+        ws.onopen = function(){
+            console.log("WebSocket Connection")
+        }
+
+        ws.onmessage = function(event){
+            console.log("WebSocket Message",event.data)
+            const data = JSON.parse(event.data)
+            document.getElementById("chat-log").value += (data.msg +'\n')
+        }
+
+        ws.onclose = function(event){
+            console.log("WebSocket close")
+        }
+
+        document.getElementById("message-submit").onclick=function(event){
+            const messageDOM = document.getElementById("chat-message-log")
+            const message = messageDOM.value
+            ws.send(JSON.stringify({
+                "msg":message
+            }))
+            messageDOM.value = " ";
+        }
+    </script>
+
+</body>
+</html>
