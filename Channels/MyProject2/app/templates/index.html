@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Demo</title>
+</head>
+<body>
+    <h1>Request & Response</h1>
+    <h2 id="ct"></h2>
+
+    <script>
+        var ws = new WebSocket("ws://127.0.0.1:8000/ws/ac/");
+
+        ws.onopen = function () {
+            console.log("Connected");
+            ws.send("Hi message from client");
+        };
+
+        ws.onmessage = function (event) {
+            console.log("Received:", event.data);
+            var data = JSON.parse(event.data)
+            document.querySelector("#ct").innerText = data.count;
+        };
+
+        ws.onclose = function () {
+            console.log("Connection closed");
+        };
+
+        ws.onerror = function (error) {
+            console.log("WebSocket Error:", error);
+        };
+    </script>
+</body>
+</html>
