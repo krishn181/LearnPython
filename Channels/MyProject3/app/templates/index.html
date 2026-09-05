@@ -109,7 +109,11 @@
     <div class="chat-header">
         {{groupname}} Channels Chat
     </div>
-<textarea  id="chat-log"></textarea><br>
+<textarea  id="chat-log">
+    {% for chat in chats  %}
+        {{chat.content}}
+    {% endfor %}
+</textarea><br>
     <div class="input-area">
         <input type="text"
                id="chat-message-log"
