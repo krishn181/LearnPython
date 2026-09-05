@@ -2,6 +2,7 @@ from channels.consumer import AsyncConsumer, SyncConsumer
 from channels.exceptions import StopConsumer
 import json
 from .models import Chat, Group
+from channels.auth import AuthMiddlewareStack
 from asgiref.sync import async_to_sync
 class MySyncConsumer(SyncConsumer):
     def websocket_connect(self, event):
@@ -32,15 +33,20 @@ class MySyncConsumer(SyncConsumer):
             group = Group.objects.get(name=self.group_name)
         except Group.DoesNotExist:
             pass
-        chat = Chat(content = message, group = group)
-        chat.save()
-        async_to_sync(self.channel_layer.group_send)(
-        self.group_name,
-        {
-            'type': 'chat.message',
-            'message': event['text'],
-        }
-        )
+        if self.scope['user'].is_authenticated:
+            chat = Chat(content = message, group = group)
+            chat.save()
+            async_to_sync(self.channel_layer.group_send)(
+            self.group_name,
+                {
+                    'type': 'chat.message',
+                    'message': event['text'],
+                }        )
+        else:
+            self.send({
+                'type':'websocket.send',
+                'text':json.dumps({"msg":"login required"}),
+                })
     def chat_message(self, event):
         print("Event.....",event['message'])
         data = json.loads(event['message'])
