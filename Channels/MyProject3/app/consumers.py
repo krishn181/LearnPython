@@ -8,26 +8,33 @@ class MySyncConsumer(SyncConsumer):
         print("Channel layer...", self.channel_layer)
         # channel name
         print("channel name...",self.channel_name)
+        self.group_name = self.scope['url_route']['kwargs']['gorupName']
+
         # add channel to group and convert sync to async 
-        async_to_sync(self.channel_layer.group_add)('programmers', #name of group as per choice
+        async_to_sync(self.channel_layer.group_add)(self.group_name, #name of group as per choice
                                                     self.channel_name)
         self.send({
             "type":"websocket.accept"
         })
 
     def websocket_receive(self, event):
-        print("Message Received...",event['text'])
+        print("Message Received...", event['text'])
         data = json.loads(event['text'])
         message = data['msg']
-        print(message)
-        async_to_sync(self.channel_layer.group_send)('programmers',{
-            'type':'chat.message',
-            'message':event['text'],
-        })
-        self.send({
-            "type":"websocket.send"
-        })
 
+        print(message)
+
+        self.group_name = self.scope['url_route']['kwargs']['gorupName']
+
+        print("Group name", self.group_name)
+
+        async_to_sync(self.channel_layer.group_send)(
+        self.group_name,
+        {
+            'type': 'chat.message',
+            'message': event['text'],
+        }
+        )
     def chat_message(self, event):
         print("Event.....",event['message'])
         data = json.loads(event['message'])
@@ -43,7 +50,8 @@ class MySyncConsumer(SyncConsumer):
                 # channel name
         print("channel name...",self.channel_name)
         #group discard
-        async_to_sync(self.channel_layer.group_discard)('programmers', #name of group as per choice
+        self.group_name = self.scope['url_route']['kwargs']['gorupName']
+        async_to_sync(self.channel_layer.group_discard)(self.group_name, #name of group as per choice
                                                             self.channel_name)
 
         raise StopConsumer()
